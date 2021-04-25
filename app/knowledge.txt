@@ -1,0 +1,3 @@
+url_for(blueprointname.endpointname) == it just gives url..
+render_template() == returns fully formed html that can be understood by the browser.
+redirect(link) == redirects to that endpoint pointed by the link.
