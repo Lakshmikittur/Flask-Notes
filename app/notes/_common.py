@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from app import db
 from app.notes.models import Note
 import app.accounts._common as accounts_common_helpers
-import datetime as datetime
+from datetime import datetime
 
 def createnote(noteobj):
     db.session.add(noteobj)
@@ -20,19 +20,29 @@ def getnotebyId(id):
     else:
         return False
 
+# def checknoteidbyauthorid(author_id, note_id):
+#     user = accounts_common_helpers.get_user_from_ID(author_id)
+#     for note in user.notes:
+#         if note.id == int(note_id):
+#             return True    
+#     return False
+
 def checknoteidbyauthorid(author_id, note_id):
-    user = accounts_common_helpers.get_user_from_ID(author_id)
-    for note in user.notes:
-        if note.id == int(note_id):
-            return True    
+    note = getnotebyId(note_id)
+    if note:
+        if note.author_id == int(author_id):
+            return True
+        else:
+            return False
     return False
+
 
 def editnote(id, content, title):
     noteobj = getnotebyId(id)
     if noteobj:
         noteobj.content = content
         noteobj.title = title
-        noteobj.date_modified = datetime.now()
+        noteobj.date_modified = datetime.utcnow()
         db.session.commit()
         return True
     

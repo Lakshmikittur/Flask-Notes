@@ -1,0 +1,18 @@
+{% extends "layout.html "%}
+
+<h1>Your Notes</h1>
+{% block content %}
+<h2>{{noteobj.title}}</h2>
+<p>
+    {{noteobj.content}}
+</p>
+
+    <small>Date created: {{noteobj.date_created.strftime('%Y-%m-%d')}}</small>
+    <small>Date modified: {{noteobj.date_modified.strftime('%Y-%m-%d')}}</small>
+
+<a href="{{url_for('notesweb.editnote', note_id = noteobj.id)}}">Edit</a>
+<a href="{{url_for('notesweb.deletenote', note_id = noteobj.id)}}">Delete</a>
+<br/>
+<a href="{{url_for('accountsweb.usernotes', note_id = noteobj.id)}}">Home</a>
+{% endblock %}
+

@@ -1,0 +1,16 @@
+{% extends "layout.html "%}
+
+{% block content %}
+
+{% for noteobj in noteobjs %}
+
+<a href="{{url_for('notesweb.note', note_id = noteobj.id)}}">{{noteobj.title}}</a>
+<p>
+    {{noteobj.content[:50]}}
+</p>
+    <small>Date created: {{noteobj.date_created.strftime('%Y-%m-%d')}}</small>
+    <small>Date modified: {{noteobj.date_modified.strftime('%Y-%m-%d')}}</small>
+{% endfor %}
+
+{% endblock %}
+

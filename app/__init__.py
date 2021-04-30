@@ -24,6 +24,11 @@ app.register_blueprint(notes_api)
 
 from app.accounts.routesWeb import accounts_web_router as accounts_web
 app.register_blueprint(accounts_web)
+
+
+from app.notes.routesWeb import notes_web_router as notes_web
+app.register_blueprint(notes_web)
+
 login_manager.login_view = 'accountsweb.login'
 login_manager.login_message_category = 'info'
 login_manager.init_app(app)

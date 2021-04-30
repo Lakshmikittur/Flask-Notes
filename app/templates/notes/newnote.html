@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content%}
+<h1>Register</h1>
+    <form method="post" action=""> 
+        {{ form.hidden_tag() }}
+        <p>
+            Title:<br>
+            {{ form.title }}
+            <div class="invalid-feedback">
+                {% for error in form.title.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        </p>
+        <p>
+            Content:<br>
+            {{ form.content }}
+            <div class="invalid-feedback">
+                {% for error in form.content.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+{% endblock %}

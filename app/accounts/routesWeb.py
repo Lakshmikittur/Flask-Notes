@@ -1,7 +1,9 @@
 from flask import url_for, abort, flash, render_template, request, Blueprint, redirect
 from flask_login import login_user, current_user, logout_user, login_required
 import app.accounts._common as  accounts_common_helpers
+import app.notes._common as notes_common_helpers
 from app.accounts.models import User
+from app.notes.models import Note
 from app import db
 from json import dumps as dmp
 from app.accounts.forms import LoginForm, RegistrationForm
@@ -18,7 +20,6 @@ def register():
     else:
         form = RegistrationForm()
         if form.validate_on_submit():
-            print("Here")
             user = User(username= form.username.data, fullname= form.fullname.data, emailID=form.email.data, password= form.password.data)
             user_created = accounts_common_helpers.create_user(user)
             if user_created == True:
@@ -53,4 +54,13 @@ def login():
                 flash('Please register before loggin in', 'warning')
                 return redirect(url_for('accountsweb.login'))
         return render_template('accounts/login.html', title="login", form=form)
+
+
+@accounts_web_router.route('/usernotes', methods=["GET"])
+@login_required
+def usernotes():
+    user = accounts_common_helpers.get_user_from_username(current_user.username)
+    return render_template('notes/user_notes.html', noteobjs = user.notes)
+
+
 
