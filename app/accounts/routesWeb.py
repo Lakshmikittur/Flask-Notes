@@ -62,5 +62,13 @@ def usernotes():
     user = accounts_common_helpers.get_user_from_username(current_user.username)
     return render_template('notes/user_notes.html', noteobjs = user.notes)
 
+@accounts_web_router.route('/logout',methods=["GET"])
+@login_required
+def logout():
+    logout_user()
+    flash('You are logged out', 'success')
+    return redirect(url_for('accountsweb.login'))
+
+
 
 

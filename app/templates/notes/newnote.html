@@ -1,6 +1,73 @@
 {% extends "layout.html" %}
 
 {% block content%}
+<br/> 
+<br/>
+
+<div class="row justify-content-center">
+    <div class="col-6">
+        <form method="POST" action="">
+            
+        <div class="card shadow-lg rounded text-black mb-10" style="background-color: #a2d5f2; min-height: 20rem;">
+            <div class="card-body text-black">
+              {{form.title(class="form-control text-center", placeholder="Title", style="background-color:#ffffffcc; color:#000000")}}
+              {% if form.title.errors %}
+                {% for error in form.title.errors %}
+                    <span class="text-danger">{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+              <br/>
+              {{form.content(class="form-control text-justify", placeholder="Content", style="background-color:#ffffffcc; color:#000000", rows=10)}}
+            </div>
+            <div class="card-footer">
+                {{ form.submit(class="btn btn-primary") }}
+            </div> 
+          </div>
+          </form> 
+    </div>
+</div>
+<!-- <div class="row justify-content-center">
+    <div class="col-6">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+                <div class="form-group">
+                    Title:
+                    {% if form.title.errors %}
+                        {{ form.title(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.title.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.title(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                <textarea class="form-control">
+                    Content:
+                    {% if form.content.errors %}
+                        {{ form.content(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.content.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.content(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+</div> -->
+
+
+<!-- 
+
 <h1>Register</h1>
     <form method="post" action=""> 
         {{ form.hidden_tag() }}
@@ -23,6 +90,6 @@
             </div>
         </p>
         <p>{{ form.submit() }}</p>
-    </form>
+    </form> -->
 
 {% endblock %}

@@ -1,18 +1,34 @@
 {% extends "layout.html "%}
 
-<h1>Your Notes</h1>
+
+
 {% block content %}
-<h2>{{noteobj.title}}</h2>
-<p>
-    {{noteobj.content}}
-</p>
-
-    <small>Date created: {{noteobj.date_created.strftime('%Y-%m-%d')}}</small>
-    <small>Date modified: {{noteobj.date_modified.strftime('%Y-%m-%d')}}</small>
-
-<a href="{{url_for('notesweb.editnote', note_id = noteobj.id)}}">Edit</a>
-<a href="{{url_for('notesweb.deletenote', note_id = noteobj.id)}}">Delete</a>
+<br/> 
 <br/>
-<a href="{{url_for('accountsweb.usernotes', note_id = noteobj.id)}}">Home</a>
+<div class="row justify-content-center">
+    <div class="col-6">
+        <div class="card shadow-lg rounded text-black mb-10" style="background-color: #a2d5f2; min-height: 20rem;">
+            <div class="card-body text-black">
+              <h5 class=" text-center card-title text-capitalize" style="font-weight: bold;">{{noteobj.title}}</h5>
+              <p class="card-text text-justify"> {{noteobj.content}}</p>
+            </div>
+            <div class="card-footer">
+                <small class="text-black">Last updated: {{noteobj.date_modified.strftime("%c")}}</small>
+            </div> 
+          </div>      
+    </div>
+</div>
+  <br/>
+  <br/>
+
+<div class="row justify-content-center">
+  <div class="col-3 text-right">
+    <a class="btn btn-success" style="width: inherit;" href="{{url_for('notesweb.editnote', note_id = noteobj.id)}}">Edit</a>
+  </div>
+  <div class="col-3 text-left">
+    <a class="btn btn-danger" style="width: inherit;" href="{{url_for('notesweb.deletenote', note_id = noteobj.id)}}">Delete</a>
+  </div>
+</div>
+<br/>
 {% endblock %}
 
