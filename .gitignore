@@ -1,2 +1,4 @@
 *.db
 app/knowledge.txt
+*.pyc
+*.pyo
