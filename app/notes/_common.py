@@ -37,11 +37,10 @@ def checknoteidbyauthorid(author_id, note_id):
     return False
 
 
-def editnote(id, content, title):
+def editnote(id, content):
     noteobj = getnotebyId(id)
     if noteobj:
         noteobj.content = content
-        noteobj.title = title
         noteobj.date_modified = datetime.utcnow()
         db.session.commit()
         return True

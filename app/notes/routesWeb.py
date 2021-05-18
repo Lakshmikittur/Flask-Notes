@@ -6,7 +6,9 @@ from app.accounts.models import User
 from app.notes.models import Note
 from app import db
 from json import dumps as dmp
-from app.notes.forms import PostForm
+from app.notes.forms import NoteForm
+import random
+from app import myColors
 
 
 notes_web_router = Blueprint('notesweb', __name__, url_prefix = "/notes")
@@ -15,19 +17,19 @@ notes_web_router = Blueprint('notesweb', __name__, url_prefix = "/notes")
 @login_required
 def newnote():
     if request.method == 'GET':
-        form = PostForm()
-        return render_template('notes/newnote.html',form=form, title='newnote')
+        form = NoteForm()
+        return render_template('notes/newnote.html',form=form, title='New Note', themeColor = random.choice(myColors))
     else:
-        form = PostForm()
+        form = NoteForm()
         if form.validate_on_submit():
-            noteobj = Note(title=form.title.data, content=form.content.data, author_id=current_user.id)
+            noteobj = Note(content=form.content.data, author_id=current_user.id)
             note_created = notes_common_helpers.createnote(noteobj)
             if note_created:
                 flash('New note added succesfully','success')
                 return redirect(url_for('notesweb.note', note_id = noteobj.id))
             else:
                 flash('Unable to add new note','danger')
-        return render_template('notes/newnote.html',form=form, title='newnote')
+        return render_template('notes/newnote.html',form=form, title='New Note', themeColor = random.choice(myColors))
 
 
 @notes_web_router.route('/note/<int:note_id>')
@@ -35,7 +37,7 @@ def newnote():
 def note(note_id):    
     if notes_common_helpers.checknoteidbyauthorid(current_user.id, note_id):
         noteobj = notes_common_helpers.getnotebyId(note_id)
-        return render_template('notes/note.html', title = noteobj.title, noteobj=noteobj)
+        return render_template('notes/note.html', noteobj=noteobj, themeColor = random.choice(myColors))
     else:
         flash('You cannot access this note')
         abort(403)
@@ -46,16 +48,15 @@ def editnote(note_id):
     if not notes_common_helpers.checknoteidbyauthorid(current_user.id, note_id):
         abort(403) #http response for forbidden route
     
-    form = PostForm()
+    form = NoteForm()
     #populate for get request
     if request.method == "GET":
         noteobj = notes_common_helpers.getnotebyId(note_id)
-        form.title.data = noteobj.title
         form.content.data = noteobj.content
         
     else :
         if form.validate_on_submit():
-            editnote = notes_common_helpers.editnote(note_id, form.content.data, form.title.data)
+            editnote = notes_common_helpers.editnote(note_id, form.content.data)
             if editnote == True:
                 flash("Your note has been updated",'success')
                 x = [print(note.content) for note in current_user.notes]
@@ -63,8 +64,7 @@ def editnote(note_id):
             else:
                 flash("This note does not exist") 
 
-    return render_template('notes/newnote.html',title='Edit Note',
-    form=form)
+    return render_template('notes/newnote.html',title='Edit Note',form=form,themeColor = random.choice(myColors))
 
 
 @notes_web_router.route('/note/<int:note_id>/delete', methods=["GET"])

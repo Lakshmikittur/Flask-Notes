@@ -9,11 +9,10 @@ import app.accounts._common as  accounts_common_helpers
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
-    fullname = StringField('Fullname', validators=[DataRequired(), Length(min=2, max=20)])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password',
-                                     validators=[DataRequired(), EqualTo('password')])
+    fullname = StringField('Fullname', validators=[DataRequired(), Length(min=2, max=30)])
+    email = StringField('Email', validators=[DataRequired(), Email(), Length(min=2, max=30)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=20)])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password'), Length(min=6, max=30)])
     submit = SubmitField('Sign Up')
 
     def validate_username(self,username):
@@ -31,9 +30,8 @@ class RegistrationForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    email=StringField('Email',
-                        validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    email=StringField('Email', validators=[DataRequired(), Email(), Length(min=2, max=30)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=20)])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
 

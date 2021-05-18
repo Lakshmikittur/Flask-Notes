@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from config import *
@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config.from_object('config')
 db = SQLAlchemy(app)
 login_manager = LoginManager()
-
+myColors = ["#D7E8FE", "#D9F5D4", "#FAD3D4", "#FFF3CD", "#DEE0FD"]
 
 @app.errorhandler(404)
 def not_found(error):
@@ -37,3 +37,12 @@ if not os.path.exists(os.path.join(BASE_DIR,DATABASE_NAME)):
     db.create_all()
 else:
     print(f"Database found at {os.path.join(BASE_DIR,DATABASE_NAME)}")
+
+from flask_login import current_user
+
+@app.route('/')
+def index():
+    if current_user.is_authenticated:
+        return redirect(url_for('accountsweb.usernotes'))
+    else:
+        return redirect(url_for('accountsweb.login'))

@@ -4,9 +4,10 @@ import app.accounts._common as  accounts_common_helpers
 import app.notes._common as notes_common_helpers
 from app.accounts.models import User
 from app.notes.models import Note
-from app import db
+from app import db, myColors
 from json import dumps as dmp
 from app.accounts.forms import LoginForm, RegistrationForm
+import random
 
 accounts_web_router = Blueprint('accountsweb', __name__, url_prefix = "/accounts")
 
@@ -15,18 +16,18 @@ def register():
     logout_user()
     if request.method == "GET":
         form = RegistrationForm()
-        return render_template('accounts/register.html', title="register", form=form)
+        return render_template('accounts/register.html', title="register", form=form, themeColor = random.choice(myColors))
     else:
         form = RegistrationForm()
         if form.validate_on_submit():
             user = User(username= form.username.data, fullname= form.fullname.data, emailID=form.email.data, password= form.password.data)
             user_created = accounts_common_helpers.create_user(user)
             if user_created == True:
-                flash(f'Your account has been created succesfully. LogIn to post ','success')
+                flash(f'Your account has been created succesfully. Log In to continue ','success')
                 return redirect(url_for('accountsweb.login'))
             else:
                 flash(user_created,'danger')
-        return render_template('accounts/register.html', title="register", form=form)
+        return render_template('accounts/register.html', title="register", form=form, themeColor = random.choice(myColors))
 
 
 
@@ -35,7 +36,7 @@ def login():
     logout_user()
     if request.method == "GET":
         form = LoginForm()
-        return render_template('accounts/login.html', title="login", form=form)
+        return render_template('accounts/login.html', title="login", form=form, themeColor = random.choice(myColors))
     else:
         form = LoginForm()
         if form.validate_on_submit():
@@ -44,21 +45,20 @@ def login():
                 user = accounts_common_helpers.get_user_from_emailID(form.email.data)
                 if user:
                     login_user(user, form.remember.data)
-                    flash("You are logged in", 'success')
                     return redirect(url_for('accountsweb.usernotes'))
                 else:
                     flash('Username/Password Invalid','danger')
             else:
                 flash('Username/Password Invalid','danger')
         print(form.email.errors)
-        return render_template('accounts/login.html', title="login", form=form)
+        return render_template('accounts/login.html', title="login", form=form, themeColor = random.choice(myColors))
 
 
 @accounts_web_router.route('/usernotes', methods=["GET"])
 @login_required
 def usernotes():
     user = accounts_common_helpers.get_user_from_username(current_user.username)
-    return render_template('notes/user_notes.html', noteobjs = user.notes)
+    return render_template('notes/user_notes.html', noteobjs = user.notes, themeColor = random.choice(myColors))
 
 @accounts_web_router.route('/logout',methods=["GET"])
 @login_required

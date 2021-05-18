@@ -11,9 +11,9 @@ def load_user(user_id):
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(20), nullable = False, unique = True)
-    fullname = db.Column(db.String(50), nullable = False)
-    password = db.Column(db.String(256), nullable = False)
-    emailID = db.Column(db.String(40), nullable = False, unique = True)
+    fullname = db.Column(db.String(30), nullable = False)
+    password = db.Column(db.String(20), nullable = False)
+    emailID = db.Column(db.String(30), nullable = False, unique = True)
     notes = db.relationship('Note', backref = "author", lazy = True )
 
 

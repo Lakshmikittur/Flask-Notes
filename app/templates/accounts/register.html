@@ -1,55 +1,66 @@
 {% extends "layout.html" %}
 
-{% block content%}
-<h1>Register</h1>
-    <form method="post" action=""> 
-        {{ form.hidden_tag() }}
-        <p>
-            Username:<br>
-            {{ form.username(size=32) }}
-            <div class="invalid-feedback">
-                {% for error in form.username.errors %}
-                    <span>{{ error }}</span>
-                {% endfor %}
-            </div>
-        </p>
-        <p>
-            Fullname:<br>
-            {{ form.fullname(size=32) }}
-            <div class="invalid-feedback">
-                {% for error in form.fullname.errors %}
-                    <span>{{ error }}</span>
-                {% endfor %}
-            </div>
-        </p>
-        <p>
-            EmailID:<br>
-            {{ form.email(size=32) }}
-            <div class="invalid-feedback">
-                {% for error in form.email.errors %}
-                    <span>{{ error }}</span>
-                {% endfor %}
-            </div>
-        </p>
-        <p>
-            Password<br>
-            {{ form.password(size=32) }}
-            <div class="invalid-feedback">
-                {% for error in form.password.errors %}
-                    <span>{{ error }}</span>
-                {% endfor %}
-            </div>
-        </p>
-        <p>
-            Confirm Password<br>
-            {{ form.confirm_password(size=32) }}
-            <div class="invalid-feedback">
-                {% for error in form.confirm_password.errors %}
-                    <span>{{ error }}</span>
-                {% endfor %}
-            </div>
-        </p>
-        <p>{{ form.submit() }}</p>
-    </form>
+{%block content%}
+<br/>
+<h1 class="text-center" style="color: #000000;"><strong>Register</strong></h1>
+<form method="post" action=""> 
+    {{ form.hidden_tag() }}
+    <div class="row justify-content-center">
+        <div class="col-4">
 
-{% endblock %}
+                <div class="form-group">
+                    <label class="form-label mt-4" style="color: #000000;">Username:</label>
+                    {{ form.username(class='form-control', style="color: #000000;") }}
+                    {% for error in form.username.errors %}
+                        <span class="text-danger"><small>{{ error }}</small></span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label mt-4" style="color: #000000;">Full Name:</label>
+                    {{ form.fullname(class='form-control', style="color: #000000;") }}
+                    {% for error in form.fullname.errors %}
+                        <span class="text-danger"><small>{{ error }}</small></span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label mt-4" style="color: #000000;">Email ID:</label>
+                    {{ form.email(class='form-control', style="color: #000000;") }}
+                    {% for error in form.email.errors %}
+                        <span class="text-danger"><small>{{ error }}</small></span>
+                    {% endfor %}
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label mt-4" style="color: #000000;">Password:</label>
+                    {{ form.password(class='form-control', style="color: #000000;") }}
+                    {% for error in form.password.errors %}
+                        <span class="text-danger"><small>{{ error }}</small></span>
+                    {% endfor %}
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label mt-4" style="color: #000000;">Confirm Password:</label>
+                    {{ form.confirm_password(class='form-control', style="color: #000000;") }}
+                    {% for error in form.confirm_password.errors %}
+                        <span class="text-danger"><small>{{ error }}</small></span>
+                    {% endfor %}
+                </div>
+                
+                <div class="mt-4">
+                    {{ form.submit(class='btn btn-primary', style='width:100%;font-weight:bold;') }}
+                </div>
+        </div>
+    </div>
+</form>
+<br/>
+<br/>
+<div class="row justify-content-center">
+    <div class="col-4">
+        <p style="color: #000000;"> Already have an account?</p>
+        <a class='btn btn-primary', style='width:100%;font-weight:bold;' href="{{url_for('accountsweb.login')}}">Login</a>
+    </div>
+</div>
+<br/>
+{%endblock%}
