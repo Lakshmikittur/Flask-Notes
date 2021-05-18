@@ -12,8 +12,7 @@ accounts_web_router = Blueprint('accountsweb', __name__, url_prefix = "/accounts
 
 @accounts_web_router.route('/register', methods=['GET','POST'])
 def register():
-    # if current_user.is_authenticated:
-    #     return redirect(url_for('r'))
+    logout_user()
     if request.method == "GET":
         form = RegistrationForm()
         return render_template('accounts/register.html', title="register", form=form)
@@ -33,8 +32,7 @@ def register():
 
 @accounts_web_router.route('/login', methods=['GET','POST'])
 def login():
-    # if current_user.is_authenticated:
-    #     return redirect(url_for('main.home'))
+    logout_user()
     if request.method == "GET":
         form = LoginForm()
         return render_template('accounts/login.html', title="login", form=form)
@@ -46,13 +44,13 @@ def login():
                 user = accounts_common_helpers.get_user_from_emailID(form.email.data)
                 if user:
                     login_user(user, form.remember.data)
-                    flash("Logged In", 'success')
-                    return redirect(url_for('accountsweb.register'))
+                    flash("You are logged in", 'success')
+                    return redirect(url_for('accountsweb.usernotes'))
                 else:
-                    flash('Login Unsuccesful','danger')
+                    flash('Username/Password Invalid','danger')
             else:
-                flash('Please register before loggin in', 'warning')
-                return redirect(url_for('accountsweb.login'))
+                flash('Username/Password Invalid','danger')
+        print(form.email.errors)
         return render_template('accounts/login.html', title="login", form=form)
 
 
