@@ -2,13 +2,13 @@
 
 {% block content%}
 <br/> 
-<h3 class="text-center" style="color: #000000;">New Note</h3>
+<h3 class="text-center" style="color: #000000;">{{MyHeading}}</h3>
 <form method="post" action=""> 
     {{ form.hidden_tag() }}
     <div class="row justify-content-center">
         <div class="col-6">
             <div class="form-group mt-4">
-                {{ form.content(class='form-control', rows=15, style='background-color:#FFFFFF;') }}
+                {{ form.content(class='form-control', rows=15, style='background-color:#FFFFFF;color:#000000') }}
                 {% for error in form.content.errors %}
                     <span class="text-danger"><small>{{ error }}</small></span>
                 {% endfor %}
@@ -22,9 +22,5 @@
     </div>
 </form>
 <br/>
-<div class="row justify-content-center">
-    <div class="col-4">
-        <a class='btn btn-danger', style='width:100%;font-weight:bold;' href="{{url_for('accountsweb.register')}}">Register</a>
-    </div>
-</div>
+<br/>
 {% endblock %}

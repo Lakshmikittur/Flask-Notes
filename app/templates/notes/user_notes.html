@@ -2,14 +2,55 @@
 
 {% block content %}
 
-{% for noteobj in noteobjs %}
 
-<a href="{{url_for('notesweb.note', note_id = noteobj.id)}}">{{noteobj.title}}</a>
-<p>
-    {{noteobj.content[:50]}}
-</p>
-    <small>Date created: {{noteobj.date_created.strftime('%Y-%m-%d')}}</small>
-    <small>Date modified: {{noteobj.date_modified.strftime('%Y-%m-%d')}}</small>
+<div class="row justify-content-center">
+    <div class="col-4">
+        <div class="card text-white bg-primary">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+              <h4 class="card-title">Primary card title</h4>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>
+    </div>
+    <div class="col-4">
+        <div class="card text-white bg-primary">
+            <div class="card-header">Header</div>
+            <div class="card-body">
+              <h4 class="card-title">Primary card title</h4>
+              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+          </div>
+    </div>
+    <div class="col-4">
+        <div class="card" style="background-color: {{myColors[0]}};">
+            <div class="card-body">
+              <p class="card-text" style="color: #000000;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+            <div class="card-footer" style="color: #000000;">Header</div>
+          </div>
+    </div>
+</div>
+
+{% set ctr=0 %}
+{% for i in range(totalNotes//3) %}
+    {% if ctr < totalNotes %}
+        <div class="row justify-content-center">
+            {% for j in range(3) %}
+                {% if ctr < totalNotes %}
+                    <div class="col-4">
+                        <div class="card" style="background-color: {{myColors[ctr%totalNotes]}};">
+                            <div class="card-body">
+                            <p class="card-text" style="color: #000000;">{{noteobjs[ctr].content[:50]}}</p>
+                            </div>
+                            <div class="card-footer" style="color: #000000;"><small>Modified: {{noteobjs[ctr].date_modified.strftime('%Y-%m-%d')}} - Created: {{noteobjs[ctr].date_created.strftime('%Y-%m-%d')}}</small></div>
+                        </div>
+                    </div>
+                    {% set ctr=ctr+1 %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endfor %}
 
 {% endblock %}

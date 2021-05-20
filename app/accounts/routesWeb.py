@@ -50,7 +50,6 @@ def login():
                     flash('Username/Password Invalid','danger')
             else:
                 flash('Username/Password Invalid','danger')
-        print(form.email.errors)
         return render_template('accounts/login.html', title="login", form=form, themeColor = random.choice(myColors))
 
 
@@ -58,7 +57,8 @@ def login():
 @login_required
 def usernotes():
     user = accounts_common_helpers.get_user_from_username(current_user.username)
-    return render_template('notes/user_notes.html', noteobjs = user.notes, themeColor = random.choice(myColors))
+    random.shuffle(myColors)
+    return render_template('notes/user_notes.html', noteobjs = user.notes, themeColor = random.choice(myColors), myColors = myColors, totalNotes = len(user.notes))
 
 @accounts_web_router.route('/logout',methods=["GET"])
 @login_required

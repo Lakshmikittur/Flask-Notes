@@ -18,7 +18,7 @@ notes_web_router = Blueprint('notesweb', __name__, url_prefix = "/notes")
 def newnote():
     if request.method == 'GET':
         form = NoteForm()
-        return render_template('notes/newnote.html',form=form, title='New Note', themeColor = random.choice(myColors))
+        return render_template('notes/newnote.html',form=form, title='New Note', themeColor = random.choice(myColors), MyHeading="New Note")
     else:
         form = NoteForm()
         if form.validate_on_submit():
@@ -29,7 +29,7 @@ def newnote():
                 return redirect(url_for('notesweb.note', note_id = noteobj.id))
             else:
                 flash('Unable to add new note','danger')
-        return render_template('notes/newnote.html',form=form, title='New Note', themeColor = random.choice(myColors))
+        return render_template('notes/newnote.html',form=form, title='New Note', themeColor = random.choice(myColors), MyHeading="New Note")
 
 
 @notes_web_router.route('/note/<int:note_id>')
@@ -59,12 +59,11 @@ def editnote(note_id):
             editnote = notes_common_helpers.editnote(note_id, form.content.data)
             if editnote == True:
                 flash("Your note has been updated",'success')
-                x = [print(note.content) for note in current_user.notes]
                 return redirect(url_for('notesweb.note', note_id= note_id))   
             else:
                 flash("This note does not exist") 
 
-    return render_template('notes/newnote.html',title='Edit Note',form=form,themeColor = random.choice(myColors))
+    return render_template('notes/newnote.html',title='Edit Note',form=form,themeColor = random.choice(myColors), MyHeading="Edit Note")
 
 
 @notes_web_router.route('/note/<int:note_id>/delete', methods=["GET"])
@@ -74,12 +73,6 @@ def deletenote(note_id):
 
     if not notes_common_helpers.checknoteidbyauthorid(current_user.id, note_id):
         abort(403) #http response for forbidden route
-    
-    #form = PostForm()
-    #noteobj = notes_common_helpers.getnotebyId(note_id)
-    # form.title.data = noteobj.title
-    # form.content.data = noteobj.content
-    
     notes_common_helpers.deletenote(note_id)
     flash("Your Note is Deleted",'success')
     return redirect(url_for('accountsweb.usernotes'))

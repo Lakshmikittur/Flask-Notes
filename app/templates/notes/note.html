@@ -4,31 +4,53 @@
 
 {% block content %}
 <br/> 
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="color: #000000;">Delete this Note?</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="$('#exampleModal').addClass('modal fade')"></button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal" onclick="$('#exampleModal').addClass('modal fade')">No</button>
+        <a type="button" class="btn btn-dark" style='font-weight:bold;' href="{{url_for('notesweb.deletenote', note_id = noteobj.id)}}">Yes, Sure</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <br/>
+
 <div class="row justify-content-center">
     <div class="col-6">
-        <div class="card shadow-lg rounded text-black mb-10" style="background-color: #a2d5f2; min-height: 20rem;">
+        <div class="card shadow-lg rounded text-black mb-10" style="background-color: #FFFFFF; min-height: 20rem;">
             <div class="card-body text-black">
-              <h5 class=" text-center card-title text-capitalize" style="font-weight: bold;">{{noteobj.title}}</h5>
-              <p class="card-text text-justify"> {{noteobj.content}}</p>
+              <p class="card-text" style="color: #000000;"> {{noteobj.content}}</p>
             </div>
             <div class="card-footer">
-                <small class="text-black">Last updated: {{noteobj.date_modified.strftime("%c")}}</small>
+                <small style="color: #000000;">Last updated: {{noteobj.date_modified.strftime("%c")}}</small>
             </div> 
           </div>      
     </div>
 </div>
-  <br/>
-  <br/>
-
+<br/>
+<br/>
 <div class="row justify-content-center">
-  <div class="col-3 text-right">
-    <a class="btn btn-success" style="width: inherit;" href="{{url_for('notesweb.editnote', note_id = noteobj.id)}}">Edit</a>
-  </div>
-  <div class="col-3 text-left">
-    <a class="btn btn-danger" style="width: inherit;" href="{{url_for('notesweb.deletenote', note_id = noteobj.id)}}">Delete</a>
+  <div class="col-4">
+      <a class='btn btn-dark', style='width:100%;font-weight:bold;' href="{{url_for('notesweb.editnote', note_id = noteobj.id)}}"><strong>Edit</strong></a>
   </div>
 </div>
 <br/>
+<br/>
+<div class="row justify-content-center">
+  <div class="col-4">
+      <!-- <a class='btn btn-dark', style='width:100%;font-weight:bold;' href="{{url_for('notesweb.deletenote', note_id = noteobj.id)}}"><strong>Delete</strong></a> -->
+      <a class='btn btn-dark', style='width:100%;font-weight:bold;' onclick="$('#exampleModal').removeClass('modal fade')"><strong>Delete</strong></a>
+  </div>
+</div>
+<br/>
+
+
 {% endblock %}
 
